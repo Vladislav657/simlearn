@@ -40,7 +40,7 @@ def get_data(filename):
         for row in list(reader)[1:]:
             x_data.append([float(x) for x in row[:-1]])
             y_data.append(float(row[-1]))
-    return np.array(x_data), np.array(y_data)
+    return x_data, y_data
 
 
 n = 300
@@ -61,4 +61,7 @@ print(*[round(y, 2) for y in y_test], sep='\t')
 print("predicted:", end='\t')
 print(*[round(p, 2) for p in pred], sep='\t')
 
-print(np.mean(np.abs(y_test - pred)))
+print(regressor.predict([[10000,10,30,2025,7.11,40,0]]))
+# print(np.mean(np.abs(y_test - pred)))
+# print(np.array([10000,10,30,2025,7.11,40,0]).reshape(-1, 1))
+print(regressor.score(x_test, y_test))
