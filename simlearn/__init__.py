@@ -1,1 +1,2 @@
 from simlearn.linear_models import LinearRegressor
+from simlearn.linear_models import LinearBinaryClassifier
