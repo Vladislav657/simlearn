@@ -1,35 +1,4 @@
-import numpy as np
-from simlearn import LinearRegressor
-import matplotlib.pyplot as plt
-
-# def func(x):
-#     return 0.5 * x + 0.2 * x ** 2 - 0.05 * x ** 3 + 0.2 * np.sin(4 * x) - 2.5
-#
-# coord_x = np.arange(-10.0, 10.0, 0.1) # значения по оси абсцисс
-# coord_y = func(coord_x) # значения по оси ординат (значения функции)
-#
-# n = 60
-#
-# x_train = np.array([[1, x, x ** 2, x ** 3] for x in coord_x])[:-n]
-# y_train = coord_y[:-n]
-#
-# x_test = np.array([[1, x, x ** 2, x ** 3] for x in coord_x])[-n:]
-# y_test = coord_y[-n:]
-#
-# r = LinearRegressor()
-# r.fit(x_train, y_train)
-# pred_train = r.predict(x_train)
-# pred_test = r.predict(x_test)
-#
-# plt.plot(coord_x, coord_y)
-# plt.plot(coord_x[:-n], pred_train)
-# plt.plot(coord_x[-n:], pred_test)
-# plt.show()
-#
-#
-# print(y_test)
-# print(pred_test)
-# print(r.w)
+from simlearn import LinearRegressor, SGDRegressor
 import csv
 
 
@@ -52,16 +21,22 @@ y_train = Y[:-n]
 x_test = X[-n:]
 y_test = Y[-n:]
 
-regressor = LinearRegressor()
-regressor.fit(x_train, y_train)
-pred = regressor.predict(x_test)
+SGD_regressor = SGDRegressor(eta=0.01, n_iter=10000, batch_size=40)
+SGD_regressor.fit(x_train, y_train)
+SGD_pred = SGD_regressor.predict(x_test)
+
+linear_regressor = LinearRegressor()
+linear_regressor.fit(x_train, y_train)
+linear_pred = linear_regressor.predict(x_test)
 
 print("real:", end='\t\t')
 print(*[round(y, 2) for y in y_test], sep='\t')
-print("predicted:", end='\t')
-print(*[round(p, 2) for p in pred], sep='\t')
+print("linear:", end='\t\t')
+print(*[round(p, 2) for p in linear_pred], sep='\t')
+print("SGD:", end='\t\t')
+print(*[round(p, 2) for p in SGD_pred], sep='\t')
 
-print(regressor.predict([[10000,10,30,2025,7.11,40,0]]))
+# print(regressor.predict([[10000,10,30,2025,7.11,40,0]]))
 # print(np.mean(np.abs(y_test - pred)))
 # print(np.array([10000,10,30,2025,7.11,40,0]).reshape(-1, 1))
-print(regressor.score(x_test, y_test))
+# print(regressor.score(x_test, y_test))
